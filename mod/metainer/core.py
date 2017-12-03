@@ -26,12 +26,16 @@ class Metainer(metaclass=ABCMeta):
     __slots__ = ('_metainer')
 
     def set(self, name, value, **kwargs):
-        l = Lict(value, name=name, **kwargs)
-        try:
-            self._metainer.append(l)
-        except AttributeError:
-            super().__setattr__('_metainer', Lict(l))
+        self._metainer.append(Lict(value, name=name, **kwargs))
         super().__setattr__(name, value)
 
     def __setattr__(self, name, value):
         self.set(name, value)
+
+    def __getattr__(self, name): # called only if normal `obj.attr` failed
+        if name != '_metainer':
+            raise AttributeError # TODO: handle __getattr__()
+        else: # unlikely
+            m = Lict()
+            super().__setattr__('_metainer', m)
+            return m

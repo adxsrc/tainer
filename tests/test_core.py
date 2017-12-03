@@ -55,3 +55,12 @@ def test_setattr():
         [d2, ('name', 'y')],
         [d3, ('name', 'z')],
     ]
+
+def test_getattr():
+    d = Datainer()
+    d.x = d1
+    d.y = d2
+    d.z = d3
+    assert d.x == d1
+    assert d.y == d2
+    assert d.z == d3
