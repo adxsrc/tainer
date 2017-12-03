@@ -30,9 +30,17 @@ class Metainer(metaclass=ABCMeta):
         try:
             m = super().__getattribute__('_metainer')
         except AttributeError:
-            m = Lict()
+            m = Lict() # initialization is done lazily in this property
             super().__setattr__('_metainer', m)
         return m
+
+    #--------------------------------------------------------------------------
+    # The actual attribute getter and setter
+    #
+    # After putting `value` to the metainer, we perform a `setattr()`
+    # so that `value` is accessible efficiently.  However, we should
+    # always use super().__[set/get]attr__() here to avoid infinite
+    # recursion.
 
     def set(self, name, value, **kwargs):
         self.metainer.append(Lict(value, name=name, **kwargs))
@@ -40,6 +48,9 @@ class Metainer(metaclass=ABCMeta):
 
     def get(self, name, *args):
         return super().__getattribute__(name)
+
+    #--------------------------------------------------------------------------
+    # Pass the getter and setter to a more pythonic interface
 
     def __setattr__(self, name, value):
         self.set(name, value)
