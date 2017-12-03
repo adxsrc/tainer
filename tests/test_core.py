@@ -14,6 +14,7 @@
 # limitations under the License.
 
 from metainer import *
+import pytest
 
 class Datainer(Metainer):
     pass
@@ -21,6 +22,17 @@ class Datainer(Metainer):
 d1 = Lict(0.1, __name__='d1')
 d2 = Lict(0.2, __name__='d2')
 d3 = Lict(0.3, __name__='d3')
+
+def test_metainer():
+    m = Metainer() # `m.__dict__` does not exist without subclassing `Metainer`
+
+    with pytest.raises(AttributeError) as e:
+        m.set('x', d1, kind='coord')
+    assert str(e.value) == "'Metainer' object has no attribute 'x'"
+
+    with pytest.raises(AttributeError) as e:
+        m.x = d1
+    assert str(e.value) == "'Metainer' object has no attribute 'x'"
 
 def test_set():
     d = Datainer()
