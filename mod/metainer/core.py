@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from abc import ABCMeta
+from abc  import ABCMeta
+from lict import Lict
 
 class Metainer(metaclass=ABCMeta):
     """Metainer
@@ -22,4 +23,12 @@ class Metainer(metaclass=ABCMeta):
     interpolatable python classes.
 
     """
-    __slots__ = ()
+    __slots__ = ('_metainer')
+
+    def set(self, name, value, **kwargs):
+        l = Lict(value, name=name, **kwargs)
+        try:
+            self._metainer.append(l)
+        except AttributeError:
+            self._metainer = Lict(l)
+        self.name = value

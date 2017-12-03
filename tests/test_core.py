@@ -18,6 +18,17 @@ from metainer import *
 class Datainer(Metainer):
     pass
 
-def test_datainer():
+d1 = Lict(0.1, __name__='d1')
+d2 = Lict(0.2, __name__='d2')
+d3 = Lict(0.3, __name__='d3')
+
+def test_set():
     d = Datainer()
-    assert d is not None
+    d.set('x', d1, kind='coord')
+    d.set('y', d2, kind='coord')
+    d.set('z', d3, kind='coord')
+    assert d._metainer == [
+        [d1, ('name', 'x'), ('kind', 'coord')],
+        [d2, ('name', 'y'), ('kind', 'coord')],
+        [d3, ('name', 'z'), ('kind', 'coord')],
+    ]
