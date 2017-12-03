@@ -38,8 +38,11 @@ class Metainer(metaclass=ABCMeta):
         self.metainer.append(Lict(value, name=name, **kwargs))
         super().__setattr__(name, value)
 
+    def get(self, name, *args):
+        return super().__getattribute__(name)
+
     def __setattr__(self, name, value):
         self.set(name, value)
 
     def __getattr__(self, name):
-        return super().__getattr__(name)
+        return self.get(name)
