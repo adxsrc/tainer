@@ -13,4 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .core import *
+from abc import ABCMeta
+
+class Metainer(metaclass=ABCMeta):
+    """Metainer
+
+    `Metainer` provides a metadata-based mixin for building
+    interpolatable python classes.
+
+    """
+    __slots__ = ()

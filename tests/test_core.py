@@ -13,4 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .core import *
+from metainer import *
+
+class Datainer(Metainer):
+    pass
+
+def test_datainer():
+    d = Datainer()
+    assert d is not None
