@@ -47,7 +47,13 @@ class Metainer(metaclass=ABCMeta):
         super().__setattr__(name, value)
 
     def get(self, name, *args):
-        return super().__getattribute__(name)
+        try:
+            return super().__getattribute__(name)
+        except AttributeError as e:
+            if args:
+                return args[0] if len(args) == 1 else args
+            else:
+                raise e
 
     #--------------------------------------------------------------------------
     # Pass the getter and setter to a more pythonic interface

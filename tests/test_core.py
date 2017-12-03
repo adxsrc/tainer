@@ -65,6 +65,13 @@ def test_get():
     assert d.get('y') == d2
     assert d.get('z') == d3
 
+    with pytest.raises(AttributeError) as e:
+        a = d.get('a')
+    assert str(e.value) == "'Datainer' object has no attribute 'a'"
+
+    assert d.get('a', None) == None
+    assert d.get('a', 1, 2) == (1, 2)
+
 def test_getattr():
     d = Datainer()
     d.x = d1
