@@ -32,3 +32,14 @@ def test_set():
         [d2, ('name', 'y'), ('kind', 'coord')],
         [d3, ('name', 'z'), ('kind', 'coord')],
     ]
+
+def test_setattr():
+    d = Datainer()
+    d.x = d1
+    d.y = d2
+    d.z = d3
+    assert d._metainer == [
+        [d1, ('name', 'x')],
+        [d2, ('name', 'y')],
+        [d3, ('name', 'z')],
+    ]

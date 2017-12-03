@@ -30,5 +30,8 @@ class Metainer(metaclass=ABCMeta):
         try:
             self._metainer.append(l)
         except AttributeError:
-            self._metainer = Lict(l)
-        self.name = value
+            super().__setattr__('_metainer', Lict(l))
+        super().__setattr__(name, value)
+
+    def __setattr__(self, name, value):
+        self.set(name, value)
