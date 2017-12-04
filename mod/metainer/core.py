@@ -43,8 +43,13 @@ class Metainer(metaclass=ABCMeta):
     # recursion.
 
     def set(self, name, value, **kwargs):
-        self.metainer.append(Lict(value, name=name, **kwargs))
-        super().__setattr__(name, value)
+        pairs = {'name':name, **kwargs} # metakey-metadata pairs
+        self.metainer.append(Lict(value, **pairs))
+
+        # Cache value to `__dict__` according to their metadata
+        for k in self.get('mounts', ['name']):
+            if k in pairs:
+                super().__setattr__(pairs[k], value)
 
     def get(self, name, *args):
         try:
