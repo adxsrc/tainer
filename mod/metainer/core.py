@@ -43,13 +43,19 @@ class Metainer(metaclass=ABCMeta):
     # recursion.
 
     def set(self, name, value, **kwargs):
-        pairs = {'name':name, **kwargs} # metakey-metadata pairs
+        # Special keys that metainer uses
+        namekey   = 'name'
+        mountkey  = 'mounts'
+        hiddenkey = 'hidden'
+
+        pairs = {namekey:name, **kwargs} # metakey-metadata pairs
         self.metainer.append(Lict(value, **pairs))
 
         # Cache value to `__dict__` according to their metadata
-        for k in self.get('mounts', ['name']):
+        for k in self.get(mountkey, [namekey]):
             if k in pairs:
-                super().__setattr__(pairs[k], value)
+                if not k == namekey or not pairs.get(hiddenkey, False):
+                    super().__setattr__(pairs[k], value)
 
     def get(self, name, *args):
         try:

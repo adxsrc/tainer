@@ -29,20 +29,22 @@ def test_mount():
     d.mounts = ['name', 'kind']
     d.set('x', d1)
     d.set('y', d2, kind='meta')
-    d.set('z', d3, kind='data')
+    d.set('z', d3, kind='data', hidden=True)
 
     assert vars(d) == {
         'mounts': ['name', 'kind'],
         'x': d1,
         'y': d2,
-        'z': d3,
         'meta': d2,
         'data': d3,
     }
 
     assert d.x == d1
     assert d.y == d2
-    assert d.z == d3
+
+    with pytest.raises(AttributeError) as e:
+        d.z
+    assert str(e.value) == "'Datainer' object has no attribute 'z'"
 
     assert d.meta == d2
     assert d.data == d3
