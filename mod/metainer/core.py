@@ -24,6 +24,7 @@ class Metainer(metaclass=ABCMeta):
 
     """
     __slots__ = ('_metainer')
+    _namekey  = 'name'
 
     @property
     def metainer(self):
@@ -43,19 +44,9 @@ class Metainer(metaclass=ABCMeta):
     # recursion.
 
     def set(self, name, value, **kwargs):
-        # Special keys that metainer uses
-        namekey   = 'name'
-        mountkey  = 'mounts'
-        hiddenkey = 'hidden'
-
-        pairs = {namekey:name, **kwargs} # metakey-metadata pairs
+        pairs = {self._namekey:name, **kwargs} # metakey-metadata pairs
         self.metainer.append(Lict(value, **pairs))
-
-        # Cache value to `__dict__` according to their metadata
-        for k in self.get(mountkey, [namekey]):
-            if k in pairs:
-                if not k == namekey or not pairs.get(hiddenkey, False):
-                    super().__setattr__(pairs[k], value)
+        self.mount(value, pairs)
 
     def get(self, name, *args):
         try:
@@ -65,6 +56,20 @@ class Metainer(metaclass=ABCMeta):
                 return args[0] if len(args) == 1 else args
             else:
                 raise e
+
+    #--------------------------------------------------------------------------
+    # Plugins
+
+    def mount(self, value, pairs):
+        # Special keys that metainer uses
+        mountkey  = 'mounts'
+        hiddenkey = 'hidden'
+
+        # Cache value to `__dict__` according to their metadata
+        for k in self.get(mountkey, [self._namekey]):
+            if k in pairs:
+                if not k == self._namekey or not pairs.get(hiddenkey, False):
+                    super().__setattr__(pairs[k], value)
 
     #--------------------------------------------------------------------------
     # Pass the getter and setter to a more pythonic interface
