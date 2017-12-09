@@ -13,7 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from metainer import *
+from lict     import Lict
+from metainer import MetainerMixin
+
 import pytest
 
 class Datainer(MetainerMixin):
