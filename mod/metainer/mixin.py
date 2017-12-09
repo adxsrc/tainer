@@ -15,7 +15,6 @@
 
 from  abc  import ABCMeta
 from .core import Metainer
-from  lict import Lict
 
 class MetainerMixin(metaclass=ABCMeta):
     """MetainerMixin
@@ -25,7 +24,6 @@ class MetainerMixin(metaclass=ABCMeta):
 
     """
     __slots__ = ('_metainer')
-    _namekey  = 'name'
 
     @property
     def metainer(self):
@@ -45,9 +43,8 @@ class MetainerMixin(metaclass=ABCMeta):
     # recursion.
 
     def set(self, name, value, **kwargs):
-        pairs = {self._namekey:name, **kwargs} # metakey-metadata pairs
-        self.metainer.append(Lict(value, **pairs))
-        self.mount(value, pairs)
+        self.metainer.set(name, value, **kwargs)
+        self.mount(value, {self.metainer._namekey:name, **kwargs})
 
     def get(self, name, *args):
         try:
@@ -63,13 +60,14 @@ class MetainerMixin(metaclass=ABCMeta):
 
     def mount(self, value, pairs):
         # Special keys that metainer uses
+        namekey   = self.metainer._namekey
         mountkey  = 'mounts'
         hiddenkey = 'hidden'
 
         # Cache value to `__dict__` according to their metadata
-        for k in self.get(mountkey, [self._namekey]):
+        for k in self.get(mountkey, [namekey]):
             if k in pairs:
-                if not k == self._namekey or not pairs.get(hiddenkey, False):
+                if not k == namekey or not pairs.get(hiddenkey, False):
                     super().__setattr__(pairs[k], value)
 
     #--------------------------------------------------------------------------

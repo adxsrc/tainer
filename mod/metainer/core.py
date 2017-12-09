@@ -16,4 +16,12 @@
 from lict import Lict
 
 class Metainer(Lict):
-    pass
+    """Metainer
+
+    `Metainer` is a metadatabase based on `Lict`.
+
+    """
+    _namekey  = 'name'
+
+    def set(self, name, value, **kwargs):
+        self.append(Lict(value, **{self._namekey:name}, **kwargs))
