@@ -30,9 +30,12 @@ class Metainer(Lict):
         self.append(Lict(value, **{self.namekey:name}, **kwargs))
 
     def mount(self, i, setback):
+        getvalue = lambda s: s[i][0]
+        getmeta  = lambda s: s[i][1:]
+
         # Special keys that metainer uses
-        value = self[i].get()[0]
-        meta  = {k:v for k, v in self[i].filter(cmp=lambda a, b: a != b)}
+        value = getvalue(self)
+        meta  = {k:v for k, v in getmeta(self)}
         keys  = self.group(self.namekey).get(self.mountkey, [[self.namekey]])[-1][0]
 
         # Cache value to `__dict__` according to their metadata
