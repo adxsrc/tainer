@@ -13,8 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from abc  import ABCMeta
-from lict import Lict
+from  abc  import ABCMeta
+from .core import Metainer
+from  lict import Lict
 
 class MetainerMixin(metaclass=ABCMeta):
     """MetainerMixin
@@ -31,7 +32,7 @@ class MetainerMixin(metaclass=ABCMeta):
         try:
             m = super().__getattribute__('_metainer')
         except AttributeError:
-            m = Lict() # initialization is done lazily in this property
+            m = Metainer() # initialization is done lazily in this property
             super().__setattr__('_metainer', m)
         return m
 

@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from lict     import Lict
-from metainer import MetainerMixin
+from lict           import Lict
+from metainer.mixin import MetainerMixin
 
 import pytest
 

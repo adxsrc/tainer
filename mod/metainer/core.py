@@ -13,4 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .core import Metainer
+from lict import Lict
+
+class Metainer(Lict):
+    pass
