@@ -31,17 +31,12 @@ class Metainer(Lict):
 
     def mount(self, i, setback):
         # Special keys that metainer uses
-
         value = self[i].get()[0]
-        pairs = {k:v for k, v in self[i].filter(cmp=lambda a, b: a != b)}
+        meta  = {k:v for k, v in self[i].filter(cmp=lambda a, b: a != b)}
+        keys  = self.group(self.namekey).get(self.mountkey, [[self.namekey]])[-1][0]
 
         # Cache value to `__dict__` according to their metadata
-        keys = [self.namekey]
-        for row in self:
-            if self.mountkey in row.get(self.namekey):
-                keys = row[0]
-
         for k in keys:
-            if k in pairs:
-                if not k == self.namekey or not pairs.get(self.hiddenkey, False):
-                    setback(pairs[k], value)
+            if k in meta:
+                if not k == self.namekey or not meta.get(self.hiddenkey, False):
+                    setback(meta[k], value)
