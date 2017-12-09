@@ -16,7 +16,7 @@
 from metainer import *
 import pytest
 
-class Datainer(Metainer):
+class Datainer(MetainerMixin):
     pass
 
 d1 = Lict(0.1, __name__='d1')
@@ -37,8 +37,8 @@ def test_setattr():
 
     # `m.__dict__` does not exist without subclassing `Metainer`
     with pytest.raises(AttributeError) as e:
-        Metainer().x = d1
-    assert str(e.value) == "'Metainer' object has no attribute 'x'"
+        MetainerMixin().x = d1
+    assert str(e.value) == "'MetainerMixin' object has no attribute 'x'"
 
 def test_set():
     global d
@@ -56,8 +56,8 @@ def test_set():
 
     # `m.__dict__` does not exist without subclassing `Metainer`
     with pytest.raises(AttributeError) as e:
-        Metainer().set('x', d1, kind='coord')
-    assert str(e.value) == "'Metainer' object has no attribute 'x'"
+        MetainerMixin().set('x', d1, kind='coord')
+    assert str(e.value) == "'MetainerMixin' object has no attribute 'x'"
 
 def test_getattr():
     assert d.x == d1

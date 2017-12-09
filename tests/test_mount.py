@@ -16,7 +16,7 @@
 from metainer import *
 import pytest
 
-class Datainer(Metainer):
+class Datainer(MetainerMixin):
     pass
 
 d1 = Lict(0.1, __name__='d1')

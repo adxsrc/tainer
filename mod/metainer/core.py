@@ -16,7 +16,7 @@
 from abc  import ABCMeta
 from lict import Lict
 
-class Metainer(metaclass=ABCMeta):
+class MetainerMixin(metaclass=ABCMeta):
     """Metainer
 
     `Metainer` provides a metadata-based mixin for building
