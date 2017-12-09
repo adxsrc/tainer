@@ -44,7 +44,7 @@ class MetainerMixin(metaclass=ABCMeta):
 
     def set(self, name, value, **kwargs):
         self.metainer.set(name, value, **kwargs)
-        self.mount(value, {self.metainer._namekey:name, **kwargs})
+        self.mount(value, {self.metainer.namekey:name, **kwargs})
 
     def get(self, name, *args):
         try:
@@ -60,7 +60,7 @@ class MetainerMixin(metaclass=ABCMeta):
 
     def mount(self, value, pairs):
         # Special keys that metainer uses
-        namekey   = self.metainer._namekey
+        namekey   = self.metainer.namekey
         mountkey  = 'mounts'
         hiddenkey = 'hidden'
 

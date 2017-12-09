@@ -21,7 +21,8 @@ class Metainer(Lict):
     `Metainer` is a metadatabase based on `Lict`.
 
     """
-    _namekey  = 'name'
+    def __init__(self, namekey='name'):
+        self.namekey = namekey
 
     def set(self, name, value, **kwargs):
-        self.append(Lict(value, **{self._namekey:name}, **kwargs))
+        self.append(Lict(value, **{self.namekey:name}, **kwargs))
