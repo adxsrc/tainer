@@ -21,16 +21,16 @@ class Metainer(Lict):
     `Metainer` is a metadatabase based on `Lict`.
 
     """
-    def __init__(self, namekey='name'):
-        self.namekey = namekey
+    def __init__(self, namekey='name', mountkey='mounts', hiddenkey='hidden'):
+        self.namekey   = namekey
+        self.mountkey  = mountkey
+        self.hiddenkey = hiddenkey
 
     def set(self, name, value, **kwargs):
         self.append(Lict(value, **{self.namekey:name}, **kwargs))
 
     def mount(self, i, setback):
         # Special keys that metainer uses
-        mountkey  = 'mounts'
-        hiddenkey = 'hidden'
 
         value = self[i].get()[0]
         pairs = {k:v for k, v in self[i].filter(cmp=lambda a, b: a != b)}
@@ -38,10 +38,10 @@ class Metainer(Lict):
         # Cache value to `__dict__` according to their metadata
         keys = [self.namekey]
         for row in self:
-            if mountkey in row.get(self.namekey):
+            if self.mountkey in row.get(self.namekey):
                 keys = row[0]
 
         for k in keys:
             if k in pairs:
-                if not k == self.namekey or not pairs.get(hiddenkey, False):
+                if not k == self.namekey or not pairs.get(self.hiddenkey, False):
                     setback(pairs[k], value)
