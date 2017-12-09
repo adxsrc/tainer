@@ -44,7 +44,7 @@ class MetainerMixin(metaclass=ABCMeta):
 
     def set(self, name, value, **kwargs):
         self.metainer.set(name, value, **kwargs)
-        self.mount(value, self.metainer.metadict(-1))
+        self.metainer.mount(-1, super().__setattr__)
 
     def get(self, name, *args):
         try:
@@ -54,21 +54,6 @@ class MetainerMixin(metaclass=ABCMeta):
                 return args[0] if len(args) == 1 else args
             else:
                 raise e
-
-    #--------------------------------------------------------------------------
-    # Plugins
-
-    def mount(self, value, pairs):
-        # Special keys that metainer uses
-        namekey   = self.metainer.namekey
-        mountkey  = 'mounts'
-        hiddenkey = 'hidden'
-
-        # Cache value to `__dict__` according to their metadata
-        for k in self.get(mountkey, [namekey]):
-            if k in pairs:
-                if not k == namekey or not pairs.get(hiddenkey, False):
-                    super().__setattr__(pairs[k], value)
 
     #--------------------------------------------------------------------------
     # Pass the getter and setter to a more pythonic interface

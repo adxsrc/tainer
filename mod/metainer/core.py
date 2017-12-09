@@ -27,5 +27,21 @@ class Metainer(Lict):
     def set(self, name, value, **kwargs):
         self.append(Lict(value, **{self.namekey:name}, **kwargs))
 
-    def metadict(self, i):
-        return {k:v for k, v in self[i].filter(cmp=lambda a, b: a != b)}
+    def mount(self, i, setback):
+        # Special keys that metainer uses
+        mountkey  = 'mounts'
+        hiddenkey = 'hidden'
+
+        value = self[i].get()[0]
+        pairs = {k:v for k, v in self[i].filter(cmp=lambda a, b: a != b)}
+
+        # Cache value to `__dict__` according to their metadata
+        keys = [self.namekey]
+        for row in self:
+            if mountkey in row.get(self.namekey):
+                keys = row[0]
+
+        for k in keys:
+            if k in pairs:
+                if not k == self.namekey or not pairs.get(hiddenkey, False):
+                    setback(pairs[k], value)
