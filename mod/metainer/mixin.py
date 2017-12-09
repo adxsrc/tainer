@@ -44,7 +44,7 @@ class MetainerMixin(metaclass=ABCMeta):
 
     def set(self, name, value, **kwargs):
         self.metainer.set(name, value, **kwargs)
-        self.mount(value, {self.metainer.namekey:name, **kwargs})
+        self.mount(value, self.metainer.metadict(-1))
 
     def get(self, name, *args):
         try:

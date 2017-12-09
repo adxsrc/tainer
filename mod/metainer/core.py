@@ -26,3 +26,6 @@ class Metainer(Lict):
 
     def set(self, name, value, **kwargs):
         self.append(Lict(value, **{self.namekey:name}, **kwargs))
+
+    def metadict(self, i):
+        return {k:v for k, v in self[i].filter(cmp=lambda a, b: a != b)}
